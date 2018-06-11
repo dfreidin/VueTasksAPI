@@ -1,22 +1,26 @@
 <template>
-  <div id="app">
+  <div id="app" class="container">
     <h1>All the tasks:</h1>
-    <TaskList v-bind:tasks="tasks" />
+    <TaskList v-on:show-task="showTask" v-bind:tasks="tasks" />
+    <ShowTask v-bind:task="show_task" />
   </div>
 </template>
 
 <script>
 const axios = require("axios");
 import TaskList from "./components/TaskList.vue"
+import ShowTask from "./components/ShowTask.vue"
 
 export default {
   name: 'app',
   components: {
-    TaskList
+    TaskList,
+    ShowTask
   },
   data() {
       return {
-          tasks: []
+          tasks: [],
+          show_task: null
       };
   },
   mounted() {
@@ -26,10 +30,16 @@ export default {
       getTasks() {
           axios.get("/tasks").then(response => {
               this.tasks = response.data.data;
-              console.log("this.tasks:", this.tasks);
           }).catch(error => {
               console.log("error:", error);
           });
+      },
+      showTask(task) {
+        axios.get(`/tasks/${task._id}`).then(response => {
+          this.show_task = response.data.data;
+        }).catch(error => {
+          console.log(error);
+        });
       }
   }
 }
