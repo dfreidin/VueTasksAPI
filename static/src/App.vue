@@ -1,10 +1,18 @@
 <template>
   <div id="app" class="container">
-    <h1>Add Task:</h1>
-    <task-form v-on:handle-task="createTask" />
-    <h1>All the tasks:</h1>
-    <TaskList v-on:show-task="showTask" v-bind:tasks="tasks" />
-    <ShowTask v-bind:task="show_task" />
+    <div class="row">
+      <div class="col">
+        <h1>All the tasks:</h1>
+        <TaskList v-on:edit-task="loadEdit" v-on:delete-task="deleteTask" v-on:show-task="showTask" v-bind:tasks="tasks" />
+        <ShowTask v-bind:task="show_task" />
+      </div>
+      <div class="col">
+        <h1>Add Task:</h1>
+        <task-form v-on:handle-task="createTask" />
+        <h1>Edit Task:</h1>
+        <task-form v-on:handle-task="updateTask" v-bind:inputTask="edit_task"/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,7 +32,8 @@ export default {
   data() {
       return {
           tasks: [],
-          show_task: null
+          show_task: null,
+          edit_task: null
       };
   },
   mounted() {
@@ -32,6 +41,7 @@ export default {
   },
   methods: {
       getTasks() {
+          console.log("getTasks()");
           axios.get("/tasks").then(response => {
               this.tasks = response.data.data;
           }).catch(error => {
@@ -47,6 +57,29 @@ export default {
       },
       createTask(task) {
         axios.post("/tasks", task).then(response => {
+          this.getTasks();
+        }).catch(error => {
+          console.log(error);
+        });
+      },
+      loadEdit(task) {
+        this.edit_task = {
+          title: task.title,
+          description: task.description,
+          _id: task._id
+        }
+      },
+      deleteTask(task) {
+        axios.delete(`/tasks/${task._id}`).then(response => {
+          console.log("deleted, getting");
+          this.getTasks();
+        }).catch(error => {
+          console.log(error);
+        });
+      },
+      updateTask(task) {
+        axios.patch(`/tasks/${task._id}`, task).then(response => {
+          console.log("updated, getting");
           this.getTasks();
         }).catch(error => {
           console.log(error);

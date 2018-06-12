@@ -4,5 +4,5 @@ module.exports = function(app) {
     app.post("/tasks", tasks.create);
     app.delete("/tasks/:id", tasks.destroy);
     app.get("/tasks/:id", tasks.show);
-    app.put("/tasks/:id", tasks.update);
+    app.patch("/tasks/:id", tasks.update);
 }

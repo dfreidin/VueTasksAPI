@@ -17,7 +17,7 @@ module.exports = {
                 res.json({message: "Error", error: err});
             }
             else {
-                res.redirect("/tasks/"+task.id);
+                res.json({message: "Success", data: task});
             }
         });
     },
@@ -33,19 +33,19 @@ module.exports = {
                         res.json({message: "Error", error: err});
                     }
                     else {
-                        res.redirect("/tasks/"+task.id);
+                        res.json({message: "Success", data: task});
                     }
                 });
             }
         });
     },
     destroy: function(req, res) {
-        Task.remove({_id: req.params.id}, function(err){
+        Task.remove({_id: req.params.id}, function(err, task){
             if(err) {
                 res.json({message: "Error", error: err});
             }
             else {
-                res.redirect("/tasks");
+                res.json({message: "Success", data: task});
             }
         })
     },

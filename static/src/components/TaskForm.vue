@@ -1,9 +1,9 @@
 <template>
-    <form>
+    <div>
         <p>Title: <input v-model="task.title" type="text"></p>
         <p>Description: <input v-model="task.description" type="text"></p>
         <p><button v-on:click="sendTask" class="btn btn-primary" type="button">Submit</button>
-    </form>
+    </div>
 </template>
 
 <script>
@@ -18,7 +18,10 @@ export default {
     },
     data() {
         return {
-            task: {}
+            task: {
+                title: "",
+                description: ""
+            }
         };
     },
     mounted() {
@@ -31,6 +34,9 @@ export default {
         sendTask() {
             this.$emit("handle-task", this.task);
         }
+    },
+    watch: {
+        inputTask: "loadTask"
     }
 }
 </script>
