@@ -8,8 +8,8 @@
 <script>
 export default {
     name: "ShowTask",
-    props: [
-        "task"
-    ]
+    props: {
+        task: Object
+    }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <ul>
-        <li v-for="task in tasks">
+        <li v-for="task in tasks" :key="task._id">
             {{task.title}}
             <button v-on:click="showTask(task)" class="btn btn-primary">Show</button>
             <button v-on:click="editTask(task)" class="btn btn-secondary">Edit</button>
@@ -15,9 +15,9 @@
 <script>
 export default {
     name: "TaskList",
-    props: [
-        "tasks"
-    ],
+    props: {
+        tasks: Array
+    },
     methods: {
         showTask(task) {
             this.$emit("show-task", task);

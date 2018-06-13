@@ -3,14 +3,19 @@
     <div class="row">
       <div class="col">
         <h1>All the tasks:</h1>
-        <TaskList v-on:edit-task="loadEdit" v-on:delete-task="deleteTask" v-on:show-task="showTask" v-bind:tasks="tasks" />
+        <TaskList
+          v-bind:tasks="tasks" 
+          v-on:edit-task="loadEdit"
+          v-on:delete-task="deleteTask"
+          v-on:show-task="showTask"
+        />
         <ShowTask v-bind:task="show_task" />
       </div>
       <div class="col">
         <h1>Add Task:</h1>
-        <task-form v-on:handle-task="createTask" />
+        <TaskForm v-on:handle-task="createTask" />
         <h1>Edit Task:</h1>
-        <task-form v-on:handle-task="updateTask" v-bind:inputTask="edit_task"/>
+        <TaskForm v-bind:input-task="edit_task" v-on:handle-task="updateTask"/>
       </div>
     </div>
   </div>
@@ -24,11 +29,13 @@ import TaskForm from "./components/TaskForm.vue";
 
 export default {
   name: 'app',
+
   components: {
     TaskList,
     ShowTask,
     TaskForm
   },
+  
   data() {
       return {
           tasks: [],
@@ -36,9 +43,11 @@ export default {
           edit_task: null
       };
   },
+  
   mounted() {
       this.getTasks();
   },
+  
   methods: {
       getTasks() {
           console.log("getTasks()");

@@ -8,14 +8,18 @@
 
 <script>
 export default {
+    name: "TaskForm",
+    
     props: {
         inputTask: {
+            type: Object,
             default: {
                 title: "",
                 description: ""
             }
         }
     },
+    
     data() {
         return {
             task: {
@@ -24,9 +28,15 @@ export default {
             }
         };
     },
+    
+    watch: {
+        inputTask: "loadTask"
+    },
+    
     mounted() {
         this.loadTask();
     },
+    
     methods: {
         loadTask() {
             Object.assign(this.task, this.inputTask);
@@ -34,9 +44,6 @@ export default {
         sendTask() {
             this.$emit("handle-task", this.task);
         }
-    },
-    watch: {
-        inputTask: "loadTask"
     }
 }
 </script>
